@@ -8,21 +8,28 @@ echo "Criando grupos de usuários..."
 
 groupadd GRP_ADM GRP_VEN GRP_SEC
 
-echo "Criando usuários..."
+echo "Criando usuários para o grupo GRP_ADM..."
 
-useradd carlos -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
-useradd maria -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
-useradd joao -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
+for user in carlos maria joao
+do 
+  useradd $user -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
+done
 
-useradd debora -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_VEN
-useradd sebastiana -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_VEN
-useradd roberto -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_VEN
+echo "Criando usuários para o grupo GRP_VEN..."
 
-useradd josefina -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_SEC
-useradd amanda -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_SEC
-useradd rogerio -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_SEC
+for user in debora sebastiana roberto
+do
+  useradd $user -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_VEN
+done
 
-echo "Especificando permissões dos diretórios...."
+echo "Criando usuários para o grupo GRP_SEC..."
+
+for user in josefina amanda rogerio
+do
+  useradd $user -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_SEC
+done
+
+echo "Especificando permissões dos diretórios /adm /ven /sec...."
 
 chown root:GRP_ADM /adm
 chown root:GRP_VEN /ven
@@ -33,4 +40,4 @@ chmod 770 /ven
 chmod 770 /sec
 chmod 777 /publico
 
-echo "Fim....."
+echo "Execução finalizada!"
